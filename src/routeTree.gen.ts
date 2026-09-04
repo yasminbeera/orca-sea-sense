@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AskRouteImport } from './routes/ask'
+import { Route as RiskRouteImport } from './routes/risk'
 import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as WeatherStatusRouteImport } from './routes/weather-status'
 import { Route as ZonesRouteImport } from './routes/zones'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AskRoute = AskRouteImport.update({
   id: '/ask',
   path: '/ask',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiskRoute = RiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WeatherRoute = WeatherRouteImport.update({
@@ -44,6 +50,7 @@ const ZonesRoute = ZonesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/risk': typeof RiskRoute
   '/weather': typeof WeatherRoute
   '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/risk': typeof RiskRoute
   '/weather': typeof WeatherRoute
   '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
@@ -59,21 +67,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/risk': typeof RiskRoute
   '/weather': typeof WeatherRoute
   '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
+  fullPaths: '/' | '/ask' | '/risk' | '/weather' | '/weather-status' | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
-  id: '__root__' | '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
+  to: '/' | '/ask' | '/risk' | '/weather' | '/weather-status' | '/zones'
+  id:
+    | '__root__'
+    | '/'
+    | '/ask'
+    | '/risk'
+    | '/weather'
+    | '/weather-status'
+    | '/zones'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AskRoute: typeof AskRoute
+  RiskRoute: typeof RiskRoute
   WeatherRoute: typeof WeatherRoute
   WeatherStatusRoute: typeof WeatherStatusRoute
   ZonesRoute: typeof ZonesRoute
@@ -93,6 +110,13 @@ declare module '@tanstack/react-router' {
       path: '/ask'
       fullPath: '/ask'
       preLoaderRoute: typeof AskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/risk': {
+      id: '/risk'
+      path: '/risk'
+      fullPath: '/risk'
+      preLoaderRoute: typeof RiskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/weather': {
@@ -122,6 +146,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AskRoute: AskRoute,
+  RiskRoute: RiskRoute,
   WeatherRoute: WeatherRoute,
   WeatherStatusRoute: WeatherStatusRoute,
   ZonesRoute: ZonesRoute,
