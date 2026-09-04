@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AskRouteImport } from './routes/ask'
 import { Route as WeatherRouteImport } from './routes/weather'
+import { Route as WeatherStatusRouteImport } from './routes/weather-status'
 import { Route as ZonesRouteImport } from './routes/zones'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const WeatherRoute = WeatherRouteImport.update({
   path: '/weather',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WeatherStatusRoute = WeatherStatusRouteImport.update({
+  id: '/weather-status',
+  path: '/weather-status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ZonesRoute = ZonesRouteImport.update({
   id: '/zones',
   path: '/zones',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/weather': typeof WeatherRoute
+  '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/weather': typeof WeatherRoute
+  '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
   '/weather': typeof WeatherRoute
+  '/weather-status': typeof WeatherStatusRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/weather' | '/zones'
+  fullPaths: '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/weather' | '/zones'
-  id: '__root__' | '/' | '/ask' | '/weather' | '/zones'
+  to: '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
+  id: '__root__' | '/' | '/ask' | '/weather' | '/weather-status' | '/zones'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AskRoute: typeof AskRoute
   WeatherRoute: typeof WeatherRoute
+  WeatherStatusRoute: typeof WeatherStatusRoute
   ZonesRoute: typeof ZonesRoute
 }
 
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WeatherRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/weather-status': {
+      id: '/weather-status'
+      path: '/weather-status'
+      fullPath: '/weather-status'
+      preLoaderRoute: typeof WeatherStatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/zones': {
       id: '/zones'
       path: '/zones'
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AskRoute: AskRoute,
   WeatherRoute: WeatherRoute,
+  WeatherStatusRoute: WeatherStatusRoute,
   ZonesRoute: ZonesRoute,
 }
 export const routeTree = rootRouteImport
