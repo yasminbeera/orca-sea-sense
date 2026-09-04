@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AskRouteImport } from './routes/ask'
+import { Route as WeatherRouteImport } from './routes/weather'
 import { Route as ZonesRouteImport } from './routes/zones'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const AskRoute = AskRouteImport.update({
   path: '/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WeatherRoute = WeatherRouteImport.update({
+  id: '/weather',
+  path: '/weather',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ZonesRoute = ZonesRouteImport.update({
   id: '/zones',
   path: '/zones',
@@ -32,30 +38,34 @@ const ZonesRoute = ZonesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/weather': typeof WeatherRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/weather': typeof WeatherRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ask': typeof AskRoute
+  '/weather': typeof WeatherRoute
   '/zones': typeof ZonesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ask' | '/zones'
+  fullPaths: '/' | '/ask' | '/weather' | '/zones'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ask' | '/zones'
-  id: '__root__' | '/' | '/ask' | '/zones'
+  to: '/' | '/ask' | '/weather' | '/zones'
+  id: '__root__' | '/' | '/ask' | '/weather' | '/zones'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AskRoute: typeof AskRoute
+  WeatherRoute: typeof WeatherRoute
   ZonesRoute: typeof ZonesRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AskRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/weather': {
+      id: '/weather'
+      path: '/weather'
+      fullPath: '/weather'
+      preLoaderRoute: typeof WeatherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/zones': {
       id: '/zones'
       path: '/zones'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AskRoute: AskRoute,
+  WeatherRoute: WeatherRoute,
   ZonesRoute: ZonesRoute,
 }
 export const routeTree = rootRouteImport
